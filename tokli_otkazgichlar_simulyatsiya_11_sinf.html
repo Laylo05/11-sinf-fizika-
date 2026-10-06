@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokli o'tkazgichlarning o'zaro ta'sir kuchi — 11-sinf</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#07111f;color:#eef6ff}
+.container{max-width:1100px;margin:auto;padding:20px}
+header{padding:24px;border-radius:18px;background:linear-gradient(135deg,#102746,#0b5b73);margin-bottom:18px}
+h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
+h2{margin-top:0;color:#75d8ff}
+.subtitle{opacity:.9}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+button{border:0;border-radius:10px;padding:12px 16px;background:#17324f;color:#fff;cursor:pointer;font-weight:700}
+button:hover,button.active{background:#1596c4}
+.panel{display:none;background:#0d1c2e;border:1px solid #24415d;border-radius:18px;padding:20px}
+.panel.active{display:block}
+.sim{position:relative;height:360px;border-radius:16px;background:radial-gradient(circle at center,#102b42,#06101b);overflow:hidden;margin:15px 0}
+.wire{position:absolute;left:8%;right:8%;height:20px;background:linear-gradient(#d9e4ea,#647684,#e6f0f4);border-radius:10px;box-shadow:0 0 12px #78c9e8}
+.w1{top:110px}.w2{top:230px}
+.label{position:absolute;background:#0a1522cc;padding:7px 10px;border-radius:8px;font-weight:bold}
+.l1{left:8%;top:72px}.l2{left:8%;top:270px}
+.arrow{position:absolute;font-size:30px;color:#75d8ff;font-weight:bold}
+.a1{right:13%;top:92px}.a2{right:13%;top:212px}
+.field{position:absolute;border:2px dashed #3caed1;border-radius:50%;opacity:.6}
+.f1{width:180px;height:90px;left:38%;top:65px}.f2{width:180px;height:90px;left:38%;top:185px}
+.force{position:absolute;font-size:42px;font-weight:bold;color:#ffcc66;animation:pulse 1.2s infinite}
+.fleft{left:20%;top:158px}.fright{right:20%;top:158px}
+@keyframes pulse{50%{transform:scale(1.15);opacity:.65}}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:15px 0}
+.control{background:#13283e;padding:12px;border-radius:12px}
+input{width:100%;accent-color:#22a9d6}
+.value{font-size:20px;font-weight:bold;color:#8de4ff}
+.formula{font-size:clamp(22px,4vw,34px);text-align:center;background:#06101b;padding:18px;border-radius:14px;margin:15px 0;color:#fff}
+.info{padding:14px;border-left:4px solid #21a9d4;background:#11263a;border-radius:8px;line-height:1.55}
+.result{font-size:26px;font-weight:bold;text-align:center;padding:16px;background:#092f3b;border-radius:12px;color:#8de4ff}
+.footer{opacity:.7;text-align:center;padding:25px}
+@media(max-width:600px){.sim{height:300px}.w1{top:80px}.w2{top:200px}.l1{top:43px}.l2{top:240px}.f1{top:35px}.f2{top:155px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>⚡ Tokli o'tkazgichlarning o'zaro ta'sir kuchi</h1>
+<div class="subtitle">11-sinf fizika • Interaktiv simulyatsiya va animatsion dars</div>
+</header>
+
+<div class="tabs">
+<button class="tab active" data-target="p1">1. O'zaro ta'sirlashish</button>
+<button class="tab" data-target="p2">2. Kuch formulasi</button>
+<button class="tab" data-target="p3">3. Amper birligi</button>
+</div>
+
+<section id="p1" class="panel active">
+<h2>1. Tokli o'tkazgichlarning o'zaro ta'sirlashishi</h2>
+<div class="info">
+Ikki parallel tokli o'tkazgich orasida magnit maydon sababli kuch hosil bo'ladi.
+<strong>Toklar bir xil yo'nalishda</strong> bo'lsa — o'tkazgichlar tortishadi.
+<strong>Qarama-qarshi yo'nalishda</strong> bo'lsa — ular itarishadi.
+</div>
+<div class="sim" id="sim1">
+<div class="wire w1"></div><div class="wire w2"></div>
+<div class="label l1">I₁ →</div><div class="label l2">I₂ →</div>
+<div class="arrow a1">→</div><div class="arrow a2">→</div>
+<div class="field f1"></div><div class="field f2"></div>
+<div class="force fleft">→</div><div class="force fright">←</div>
+</div>
+<button id="reverse">↔ Tok yo'nalishini almashtirish</button>
+<p id="interactionText" class="result">Bir xil yo'nalish: TORTISHISH</p>
+</section>
+
+<section id="p2" class="panel">
+<h2>2. O'zaro ta'sir kuchini hisoblash</h2>
+<div class="formula">F = μ₀ I₁ I₂ l / (2πr)</div>
+<div class="info">
+μ₀ = 4π × 10⁻⁷ N/A² — vakuumning magnit doimiysi.
+Kuch toklar ko'paytmasiga va o'tkazgich uzunligiga to'g'ri, masofaga esa teskari proporsional.
+</div>
+<div class="controls">
+<div class="control"><label>I₁ = <span id="vI1" class="value">2.0</span> A</label><input id="I1" type="range" min="0" max="10" step=".1" value="2"></div>
+<div class="control"><label>I₂ = <span id="vI2" class="value">3.0</span> A</label><input id="I2" type="range" min="0" max="10" step=".1" value="3"></div>
+<div class="control"><label>l = <span id="vl" class="value">1.0</span> m</label><input id="len" type="range" min=".1" max="10" step=".1" value="1"></div>
+<div class="control"><label>r = <span id="vr" class="value">0.10</span> m</label><input id="dist" type="range" min=".01" max="1" step=".01" value=".1"></div>
+</div>
+<div id="result" class="result"></div>
+<div class="sim">
+<div class="wire w1"></div><div class="wire w2"></div>
+<div class="label l1">I₁</div><div class="label l2">I₂</div>
+<div class="arrow a1">→</div><div class="arrow a2">→</div>
+</div>
+</section>
+
+<section id="p3" class="panel">
+<h2>3. Amper birligining xalqaro ta'rifi</h2>
+<div class="info">
+<strong>Klassik SI ta'rifi:</strong> vakuumda bir-biridan 1 metr masofada joylashgan, cheksiz uzun va juda kichik ko'ndalang kesimli ikkita parallel to'g'ri o'tkazgichdan teng doimiy tok o'tganda, ularning har bir metr uzunligiga <strong>2 × 10⁻⁷ N</strong> kuch ta'sir qiladigan tok kuchi 1 amper deb ta'riflangan.
+</div>
+<div class="sim">
+<div class="wire w1"></div><div class="wire w2"></div>
+<div class="label l1">I₁ = 1 A</div><div class="label l2">I₂ = 1 A</div>
+<div class="arrow a1">→</div><div class="arrow a2">→</div>
+<div style="position:absolute;left:45%;top:160px;font-size:25px;color:#ffcc66;font-weight:bold">↕ 1 m ↕</div>
+<div class="force fleft">→</div><div class="force fright">←</div>
+</div>
+<div class="result">F / l = 2 × 10⁻⁷ N/m</div>
+<p class="info">Eslatma: 2019-yildan boshlab SI tizimida amper fundamental fizik doimiylar orqali aniqlanadi; yuqoridagi ta'rif amperning tarixiy/klassik mexanik ta'rifidir.</p>
+</section>
+
+<div class="footer">11-sinf fizika • Tokli o'tkazgichlarning o'zaro ta'sir kuchi</div>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('.tab');
+tabs.forEach(b=>b.addEventListener('click',()=>{
+ tabs.forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active'); document.getElementById(b.dataset.target).classList.add('active');
+}));
+
+let same=true;
+const reverse=document.getElementById('reverse');
+reverse.addEventListener('click',()=>{
+ same=!same;
+ const arrows=document.querySelectorAll('#sim1 .arrow');
+ arrows[0].textContent=same?'→':'←';
+ arrows[1].textContent='→';
+ document.getElementById('interactionText').textContent=same?'Bir xil yo‘nalish: TORTISHISH':'Qarama-qarshi yo‘nalish: ITARILISH';
+ document.querySelector('#sim1 .fleft').textContent=same?'→':'←';
+ document.querySelector('#sim1 .fright').textContent=same?'←':'→';
+});
+
+function calc(){
+ const I1=+document.getElementById('I1').value;
+ const I2=+document.getElementById('I2').value;
+ const l=+document.getElementById('len').value;
+ const r=+document.getElementById('dist').value;
+ const mu0=4*Math.PI*1e-7;
+ const F=mu0*I1*I2*l/(2*Math.PI*r);
+ document.getElementById('vI1').textContent=I1.toFixed(1);
+ document.getElementById('vI2').textContent=I2.toFixed(1);
+ document.getElementById('vl').textContent=l.toFixed(1);
+ document.getElementById('vr').textContent=r.toFixed(2);
+ document.getElementById('result').innerHTML='F = '+F.toExponential(3)+' N';
+}
+['I1','I2','len','dist'].forEach(id=>document.getElementById(id).addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
